@@ -14,6 +14,17 @@ namespace IT5014_Project_20210603
         string tk_Response;         // Automatically set "Not Yet Opened" when ticket is first created
         string tk_Status;           // Automatically set to Open once ticket is created
 
+        public Ticket(string desc, string staffID)
+        {
+            tk_Num++;
+            this.tk_Creator = "Not Specified";
+            this.tk_Email = "Not Specified";
+            this.tk_Desc = desc;
+            this.tk_StaffID = staffID;
+            this.tk_Response = "Not Yet Provided";
+            this.tk_Status = "Open";
+        }
+
         public Ticket(string name, string email, string desc, string staffID)
         {
             tk_Num++;
@@ -21,14 +32,14 @@ namespace IT5014_Project_20210603
             this.tk_Email = email;
             this.tk_Desc = desc;
             this.tk_StaffID = staffID;
-            tk_Response = "Not Yet Provided";
-            tk_Status = "Open";
+            this.tk_Response = "Not Yet Provided";
+            this.tk_Status = "Open";
 
         }
 
         public string GenerateTicket()
         {
-            return tk_Creator;
+            return "Ticket Creator: " + tk_Creator;
         }
 
     }
