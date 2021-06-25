@@ -6,7 +6,15 @@ namespace IT5014_Project_20210603
 {
     class PasswordGenerator
     {
-
+        /// <summary>
+        /// A static method that generates a new password using:
+        /// 1. First 2 chars of the staff ID
+        /// 2. Hex number of the TICKET NUMBER
+        /// 3. The hex number of the first 3 chars of the current timeStamp i.e DateTime.Now()
+        /// </summary>
+        /// <param name="tk_Num">A given TICKET NUMBER.</param>
+        /// <param name="staffID">A given Staff ID.</param>
+        /// <returns>Returns a string combination of all three excluding the dashes(-).</returns>
         public static string GeneratePassword(int tk_Num, string staffID)
         {
             string hex_TkNum = tk_Num.ToString("X");

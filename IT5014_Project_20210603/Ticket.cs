@@ -134,10 +134,50 @@ namespace IT5014_Project_20210603
         {
             return this.tk_Status;
         }
+        /// <summary>
+        /// This is only called when wanting to "Reopen" a "Closed" Ticket
+        /// </summary>
+        /// <param name="list">Is a List of Ticket Objects to use when searching the list.</param>
+        public static void ReopenTicket(List<Ticket> list)
+        {
+            Console.WriteLine("\nWhich ticket would you like to reopen?\n" +
+                    "Please input Ticket Number: ");
+            string chosenTicket = Console.ReadLine(); // Gets users input
+            int chosenNumber;       // Establising local variable int for later use
+            bool isParsable = Int32.TryParse(chosenTicket, out chosenNumber);
+            // isParable is a boolean which uses checks if chosenTicket is an integer
+            // if chosenTicket is an integer, it outputs the int into chosenNumber
+            if (isParsable)
+            // If isParsable is true
+            {
+                foreach (Ticket tk in list) // Goes through each ticket in the list
+                {
+                    if (tk.Get_tk_Num().ToString() == chosenTicket)
+                    // If chosenNumber == the ticketNumber we are looking 
+                    {
+                        if ((tk.Get_tk_Status() == "Closed"))
+                        // Checks if the the chosenTicket is "Closed" 
+                        {
+                            tk.Set_tk_Status("Reopened"); // Sets the TicketStatus to Reopened
+                            Console.WriteLine("\nTicket Number: {0} has been Reopened.", tk.Get_tk_Num());
+                            Console.WriteLine("Ticket Status has been set to \"Reopened\".", tk.Get_tk_Status());
+                        }
+                        else 
+                            // Else gives syntax that the chosenTicket Status either "Open" or "Reopened" 
+                            Console.WriteLine("\nThat Ticket Number is \"Open\" or \"Reopened\".\n" +
+                                "Input a Closed Ticket please.");
+                    }
+                }
+            }
+            else // Else the given user input is not an integer or a TicketNumber
+                Console.WriteLine("\nThat is not a Ticket Number. Please try again.");
+        }
 
-
+        /// <summary>
+        /// This is called when wanting to resolve a "Closed" Ticket
+        /// </summary>
+        /// <param name="list">Is a List of Ticket Objects to use when searching the list.</param>
         public static void ResolveTicket(List<Ticket> list)
-            // Parameters allows us to access the ticketList in the main method
         {
             Console.WriteLine("\nWhich ticket would you like to resolve?\n" +
                                 "Please input Ticket Number: ");
@@ -158,6 +198,8 @@ namespace IT5014_Project_20210603
                             // Checks if the the chosenTicket is ether "Open" or "Reopened" 
                         {
                             tk.Set_tk_Status("Closed"); // Sets the TicketStatus to Closed
+                            Console.WriteLine("\nTicket Number: {0} has been Resolved.", tk.Get_tk_Num());
+                            Console.WriteLine("Ticket Status has been set to \"Closed\".", tk.Get_tk_Status());
                             if (tk.Get_tk_Desc().Contains("Password change"))
                                 // If the Ticket issue description is a password change 
                                 // Calls for a new password using the currect tk (TICKET) we are on 
@@ -176,24 +218,32 @@ namespace IT5014_Project_20210603
                 Console.WriteLine("\nThat is not a Ticket Number. Please try again.");
         }
 
+        /// <summary>
+        /// Gives an appropriate response to the given description of issue to chosen ticket that is to be resolved.
+        /// </summary>
+        /// <param name="chosenTicket">Is the chosen ticket to receive a response from IT Staff.</param>
         public static void GiveResponse(Ticket chosenTicket)
         {
             Console.WriteLine("\nWhat would you like to set the response as?");
             string response = Console.ReadLine(); // Gets users response as a string
             chosenTicket.Set_tk_Response(response); 
             // Changes the chosenTickets response to the one set by the user
-            chosenTicket.PrintTicketInfo(); // FOR TEST PURPOSE DELETE AFTER 
         }
 
+        /// <summary>
+        /// Gets a new password from the PasswordGenerator class and assigns it as the response for Ticket.
+        /// </summary>
         public void NewPassword()
         {
             string newPass = PasswordGenerator.GeneratePassword(this.tk_Num, this.tk_StaffID);
             // Calls PasswordGenerator Class static method to generate new password
             Set_tk_Response(newPass);
             // This sets the response automatically as the new password
-            this.PrintTicketInfo(); // FOR TEST PURPOSE DELETE AFTER 
         }
 
+        /// <summary>
+        /// Prints all the information of a Ticket.
+        /// </summary>
         public void PrintTicketInfo()
         {
             Console.WriteLine( 
